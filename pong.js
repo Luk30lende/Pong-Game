@@ -25,6 +25,18 @@ let player2 = {
   velocityY: playerVelocityY,
 };
 
+// Ball
+let ballWidth = 10;
+let ballHeight = 10;
+let ball = {
+  x: boardWidth / 2,
+  y: boardHeight / 2,
+  width: ballWidth,
+  height: ballHeight,
+  velocityX: 1,
+  velocityY: 2,
+};
+
 window.onload = () => {
   board = document.getElementById("board");
   board.height = boardHeight;
@@ -45,12 +57,30 @@ const update = () => {
 
   //player1 / paddle 1
   context.fillStyle = "#67b3b5";
-  player1.y += player1.velocityY;
+  //   player1.y += player1.velocityY;
+  let nextPlayer1Y = player1.y + player1.velocityY;
+  if (!outOfBounds(nextPlayer1Y)) {
+    player1.y = nextPlayer1Y;
+  }
   context.fillRect(player1.x, player1.y, player1.width, player1.height);
 
   //player2 / paddle 2
-  player2.y += player2.velocityY;
+  //   player2.y += player2.velocityY;
+  let nextPlayer2Y = player2.y + player2.velocityY;
+  if (!outOfBounds(nextPlayer2Y)) {
+    player2.y = nextPlayer2Y;
+  }
   context.fillRect(player2.x, player2.y, player2.width, player2.height);
+
+  // draw the ball
+  context.fillStyle = "whitesmoke";
+  ball.x += ball.velocityX;
+  ball.y += ball.velocityY;
+  context.fillRect(ball.x, ball.y, ball.width, ball.height);
+};
+
+const outOfBounds = (yPosition) => {
+  return yPosition < 0 || yPosition + playerHeight > boardHeight;
 };
 
 const movePlayer = (e) => {
