@@ -77,6 +77,11 @@ const update = () => {
   ball.x += ball.velocityX;
   ball.y += ball.velocityY;
   context.fillRect(ball.x, ball.y, ball.width, ball.height);
+
+  // if ball touches top or bottom of canvas
+  if (ball.y <= 0 || ball.y + ball.height >= boardHeight) {
+    ball.velocityY *= -1; // reverse direction
+  }
 };
 
 const outOfBounds = (yPosition) => {
