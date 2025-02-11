@@ -4,4 +4,6 @@ body {
 
 #board {
   background-color: #000;
+  border-top: 5px solid #67b3b5;
+  border-bottom: 5px solid #67b3b5;
 }
