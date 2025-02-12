@@ -37,6 +37,10 @@ let ball = {
   velocityY: 2,
 };
 
+// Score
+let player1Score = 0;
+let player2Score = 0;
+
 window.onload = () => {
   board = document.getElementById("board");
   board.height = boardHeight;
@@ -95,6 +99,20 @@ const update = () => {
       ball.velocityX *= -1; // flip x direction
     }
   }
+
+  // game over
+  if (ball.x < 0) {
+    player2Score++;
+    resetGame(1);
+  } else if (ball.x + ball.width > boardWidth) {
+    player1Score++;
+    resetGame(-1);
+  }
+
+  // scores
+  context.font = "45px sans-serif";
+  context.fillText(player1Score, boardWidth / 5, 45);
+  context.fillText(player2Score, (boardWidth * 4) / 5 - 45, 45);
 };
 
 const outOfBounds = (yPosition) => {
@@ -124,4 +142,15 @@ const detectCollision = (a, b) => {
     a.y < b.y + b.height && // a's top left corner doesn't reach b's bottom left corner
     a.y + a.height > b.y // a's bottom left corner passes b's top left corner
   );
+};
+
+const resetGame = (direction) => {
+  ball = {
+    x: boardWidth / 2,
+    y: boardHeight / 2,
+    width: ballWidth,
+    height: ballHeight,
+    velocityX: direction,
+    velocityY: 2,
+  };
 };
