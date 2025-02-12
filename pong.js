@@ -82,6 +82,19 @@ const update = () => {
   if (ball.y <= 0 || ball.y + ball.height >= boardHeight) {
     ball.velocityY *= -1; // reverse direction
   }
+
+  // bounce the ball back
+  if (detectCollision(ball, player1)) {
+    if (ball.x <= player1.x + player1.width) {
+      // left side of the ball touches right side of player/paddle1
+      ball.velocityX *= -1; // flip x direction
+    }
+  } else if (detectCollision(ball, player2)) {
+    if (ball.x + ball.width >= player2.x) {
+      // right side of the ball touches left side of player/paddle2
+      ball.velocityX *= -1; // flip x direction
+    }
+  }
 };
 
 const outOfBounds = (yPosition) => {
@@ -102,4 +115,13 @@ const movePlayer = (e) => {
   } else if (e.code == "ArrowDown") {
     player2.velocityY = 3;
   }
+};
+
+const detectCollision = (a, b) => {
+  return (
+    a.x < b.x + b.width && // a's top left corner doesn't reach b's top right corner
+    a.x + a.width > b.x && // a's top right corner passes b's top left corner
+    a.y < b.y + b.height && // a's top left corner doesn't reach b's bottom left corner
+    a.y + a.height > b.y // a's bottom left corner passes b's top left corner
+  );
 };
